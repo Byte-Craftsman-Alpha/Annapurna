@@ -46,7 +46,7 @@ if (!isSymlinkSupported) {
 console.log(`🚀 [Annapurna Desktop] Running electron-builder ${targetArg}...`)
 const normalizedOut = outDir.replace(/\\/g, '/')
 const outFlag = !isSymlinkSupported ? ` -c.directories.output="${normalizedOut}"` : ''
-const builderCmd = `node node_modules/electron-builder/out/cli/cli.js ${targetArg}${outFlag}`
+const builderCmd = `node node_modules/electron-builder/out/cli/cli.js ${targetArg}${outFlag} --publish never`
 execSync(builderCmd, { stdio: 'inherit' })
 
 // If built in temp directory, copy final installable packages back to ./release
