@@ -1,10 +1,22 @@
 # Annapurna — Every household, accounted for.
 
-A React, TypeScript, Vite, and Tailwind workspace for ration cards and household members. It runs in Chromium browsers and can be installed as a progressive web app.
+A React, TypeScript, Vite, and Tailwind workspace for ration cards and household members. It runs in Chromium browsers as a progressive web app (PWA), and as a standalone native cross-platform desktop executable on Linux, Windows, and macOS.
 
 ## Start locally
 
-Install dependencies with `npm install`, then use the Vite development command from package.json. `npm run build` produces the production app in `dist`. `npm run lint` checks the source. The scripts in `scripts/` run finite Chromium checks against the production build and close their temporary HTTP server automatically.
+Install dependencies with `npm install`, then use the Vite development command (`npm run dev`). `npm run build` produces the production web app in `dist`. `npm run lint` checks the source.
+
+### Desktop Application
+
+- `npm run electron:start`: Launch Annapurna in a native Electron window against the compiled production bundle.
+- `npm run electron:dev`: Launch Electron with hot-reloading connected to the live Vite dev server.
+- `npm run dist:linux`: Build Linux distribution packages (`.AppImage`, `.deb`, `.tar.gz`) in `release/`.
+- `npm run dist:win`: Build Windows packages (NSIS setup `.exe`, portable `.exe`, `.zip`) in `release/`.
+- `npm run dist:mac`: Build macOS distribution packages (`.dmg`, `.zip`) in `release/`.
+- `npm run dist:all`: Build all target platforms.
+- `npm run dist:dir`: Fast unpacked local testing build.
+
+Automated continuous integration via GitHub Actions (`.github/workflows/desktop-release.yml`) compiles native binaries on Ubuntu, Windows, and macOS runners on each release tag.
 
 The initial eight households are explicitly fictional examples retained from the reference workspace in the supplied input file. No private records were present in that file. Clear the local workspace in Settings to start with your own data.
 
@@ -68,7 +80,12 @@ This app does not encrypt the browser cache. Clearing site data removes local re
 
 ## Install and offline access
 
-Open the deployed app in a full Chrome or Edge tab. Use the browser’s address-bar install icon or its Install app menu. The service worker caches the application shell, bundled fonts, and illustration after the first online visit. Local records remain available offline. The app is a PWA, not a separately packaged Chromium executable.
+- **Web / Progressive Web App (PWA)**: Open the deployed app in a Chromium browser (Chrome, Edge, Brave). Use the browser address-bar install icon or menu. The service worker caches the application shell, bundled fonts, and illustration after the first online visit.
+- **Desktop Application (Native Executable)**: Download and run the standalone package for your operating system:
+  - Linux: Run `Annapurna-1.0.0.AppImage` directly (`chmod +x` then execute), or install `annapurna_1.0.0_amd64.deb`.
+  - Windows: Run the setup wizard `Annapurna Setup 1.0.0.exe` or launch the zero-install `Annapurna 1.0.0.exe` portable executable.
+  - macOS: Open `Annapurna-1.0.0.dmg` and drag to Applications.
+  All local storage operates offline using sandboxed IndexedDB storage.
 
 ## Verification
 

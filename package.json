@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Every household, accounted for. A responsive, local-first and Firebase-enabled ration card & household management workspace.",
   "type": "module",
+  "main": "electron/main.cjs",
   "author": "Aditya Chaudhari <aditya@teamparadox.in> (https://aditya.teamparadox.in)",
   "license": "MIT",
   "homepage": "https://teamparadox.in",
@@ -15,6 +16,8 @@
     "ration-card",
     "household-management",
     "pwa",
+    "desktop-app",
+    "electron",
     "local-first",
     "offline-first",
     "react",
@@ -25,14 +28,66 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "node node_modules/typescript/bin/tsc -b && node node_modules/vite/bin/vite.js build",
+    "lint": "node node_modules/eslint/bin/eslint.js .",
+    "preview": "vite preview",
+    "electron:start": "node node_modules/electron/cli.js .",
+    "electron:dev": "node node_modules/concurrently/dist/bin/concurrently.js -k -s first \"node node_modules/vite/bin/vite.js\" \"node node_modules/wait-on/bin/wait-on tcp:5173 && ELECTRON_START_URL=http://localhost:5173 node node_modules/electron/cli.js .\"",
+    "dist:dir": "node scripts/build-desktop.mjs --dir",
+    "dist:linux": "node scripts/build-desktop.mjs --linux",
+    "dist:win": "node scripts/build-desktop.mjs --win",
+    "dist:mac": "node scripts/build-desktop.mjs --mac",
+    "dist:all": "node scripts/build-desktop.mjs -mwl"
+  },
+  "build": {
+    "appId": "in.teamparadox.annapurna",
+    "productName": "Annapurna",
+    "copyright": "Copyright © 2026 Aditya Chaudhari (Team Paradox)",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/**/*",
+      "!node_modules/**/*"
+    ],
+    "asar": true,
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "tar.gz"
+      ],
+      "icon": "public/icon-512.png",
+      "category": "Office",
+      "synopsis": "Local-first ration card and household management application"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable",
+        "zip"
+      ],
+      "icon": "public/icon-512.png"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "public/icon-512.png",
+      "category": "public.app-category.productivity"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Annapurna"
+    }
   },
   "dependencies": {
-    "@playwright/test": "^1.64.1",
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
-    "@tailwindcss/vite": "^4.2.1",
     "firebase": "^13.0.0",
     "framer-motion": "^12.35.0",
     "idb": "^8.0.4",
@@ -44,16 +99,23 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
+    "@tailwindcss/vite": "^4.2.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "concurrently": "^10.0.6",
+    "electron": "^44.9.0",
+    "electron-builder": "^26.15.3",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "wait-on": "^9.5.1"
   }
 }

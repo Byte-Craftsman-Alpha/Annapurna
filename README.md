@@ -65,7 +65,17 @@ Engineered with an **offline-first philosophy**, Annapurna ensures that zero con
 - Installable on desktop and mobile Chromium browsers (Chrome, Edge, Brave).
 - Service worker caching for fast offline boot and instant resource loading.
 
-### ⌨️ 7. Keyboard Accessibility
+### 🖥️ 7. Native Cross-Platform Desktop App (Windows, Linux, macOS)
+- **Standalone Native Window**: Run Annapurna as a dedicated desktop application with native window frames, customizable menu bar, and isolated local storage.
+- **Local-First & Offline**: Direct local persistence via sandboxed IndexedDB, with optional Firebase cloud sync.
+- **Native Accelerators**: OS-native shortcuts (`Ctrl`/`Cmd` + `N` for new card, `Ctrl`/`Cmd` + `K` for search, `Ctrl`/`Cmd` + `P` for print, `Ctrl`/`Cmd` + `R` for reload).
+- **Cross-Platform Installers**:
+  - **Linux**: Standalone `.AppImage` (runs on any distro without installation), Debian/Ubuntu `.deb` package, and `.tar.gz` archive.
+  - **Windows**: Full NSIS Setup installer (`.exe`), standalone zero-install Portable executable (`.exe`), and `.zip` archive.
+  - **macOS**: Apple disk image (`.dmg`) and `.zip` distribution.
+- **Automated CI/CD**: GitHub Actions workflow builds native binaries for Ubuntu, Windows, and macOS runners automatically on release tags or manual workflow dispatch.
+
+### ⌨️ 8. Keyboard Accessibility
 - `Ctrl` / `⌘` + `K`: Focus instant search
 - `N`: Create a new ration card
 - `Esc`: Close any active dialog or modal
@@ -79,6 +89,7 @@ Engineered with an **offline-first philosophy**, Annapurna ensures that zero con
 | **Framework** | [React 19](https://react.dev/) |
 | **Language** | [TypeScript 5.9](https://www.typescriptlang.org/) |
 | **Build Tool & Bundler** | [Vite 7](https://vite.dev/) |
+| **Desktop Runtime** | [Electron 34](https://www.electronjs.org/) & [electron-builder](https://www.electron.build/) |
 | **Styling** | [Tailwind CSS v4](https://tailwindcss.com/) & Native CSS Custom Properties |
 | **Animation** | [Framer Motion](https://www.framer.com/motion/) |
 | **Icons** | [Lucide React](https://lucide.dev/) |
@@ -396,6 +407,50 @@ npm run preview
 
 ---
 
+### 🖥️ Running the Desktop Application (Electron)
+
+Annapurna can be executed as a dedicated desktop application with native window frames and isolated offline persistence.
+
+- **Launch against built assets**:
+  ```bash
+  npm run electron:start
+  ```
+- **Launch in live hot-reload development mode**:
+  ```bash
+  npm run electron:dev
+  ```
+
+---
+
+### 📦 Building Cross-Platform Desktop Executables
+
+Annapurna packages standalone executables for **Linux**, **Windows**, and **macOS** using `electron-builder` and a specialized runner (`scripts/build-desktop.mjs`):
+
+```bash
+# Package into an unpacked local directory for immediate testing
+npm run dist:dir
+
+# Package for Linux (.AppImage standalone, .deb installer, .tar.gz archive)
+npm run dist:linux
+
+# Package for Windows (NSIS installer .exe, portable .exe, .zip)
+npm run dist:win
+
+# Package for macOS (.dmg, .zip)
+npm run dist:mac
+
+# Package all target platforms
+npm run dist:all
+```
+
+All built installers and bundles are placed into the `release/` folder.
+
+> **Note on Filesystems & CI/CD**: On non-POSIX filesystems (like FAT32/exFAT drives), `scripts/build-desktop.mjs` automatically builds within the system temporary directory to support symlink creation before copying final binaries into `release/`.
+> 
+> Furthermore, `.github/workflows/desktop-release.yml` provides a GitHub Actions matrix workflow that automatically compiles native binaries on Ubuntu, Windows, and macOS runners and publishes them to GitHub Releases on version tags (`v*`).
+
+---
+
 ### Code Linting
 
 To inspect the codebase for style, syntax, and React best practices using ESLint:
@@ -451,15 +506,22 @@ Annapurna works 100% offline without any backend. If you wish to enable cloud sy
 
 ```text
 annapurna/
+├── .github/                # GitHub Actions automated release workflows
+│   └── workflows/
+│       └── desktop-release.yml # Multi-OS CI/CD desktop builder (Linux/Win/Mac)
 ├── demo-data/              # Demo JSON and XML files for single and bulk import testing
 │   ├── bulk-households.json
 │   ├── bulk-households.xml
 │   ├── single-household.json
 │   └── single-household.xml
+├── electron/               # Native Electron desktop entry point and preload bridge
+│   ├── main.cjs            # Application lifecycle, window management & native menu
+│   └── preload.cjs         # Context isolation bridge & secure IPC API
 ├── public/                 # Static assets, PWA icons, manifest, and service worker
-├── scripts/                # Automated verification and visual check scripts
-│   ├── functional-check.mjs
-│   └── visual-check.mjs
+├── scripts/                # Automated verification and packaging scripts
+│   ├── build-desktop.mjs   # Cross-platform desktop packager
+│   ├── functional-check.mjs# End-to-end integration test suite
+│   └── visual-check.mjs    # Responsive rendering inspection
 ├── src/
 │   ├── assets/             # SVGs and illustrations
 │   ├── components/         # Reusable UI components

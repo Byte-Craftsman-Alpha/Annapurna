@@ -6,6 +6,10 @@ node_modules/
 # Production build artifacts
 dist/
 dist-ssr/
+release/
+*.AppImage
+*.deb
+
 
 # Local environment & secret files
 secrets.txt
