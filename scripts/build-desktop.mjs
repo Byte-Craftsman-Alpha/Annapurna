@@ -7,7 +7,7 @@
  */
 
 import { execSync } from 'node:child_process'
-import { existsSync, mkdirSync, cpSync, rmSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, mkdirSync, cpSync, rmSync, readdirSync, statSync, symlinkSync } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { tmpdir } from 'node:os'
 
@@ -24,10 +24,11 @@ if (!existsSync('dist/index.html')) {
 
 // On FAT/exFAT/NTFS drives without symlink support, build in system temp dir
 const isSymlinkSupported = (() => {
+  if (process.platform === 'win32') return true
   try {
     const testSym = resolve('.symlink-test')
     if (existsSync(testSym)) rmSync(testSym)
-    execSync(`ln -s package.json "${testSym}"`, { stdio: 'ignore' })
+    symlinkSync('package.json', testSym)
     rmSync(testSym)
     return true
   } catch {
@@ -39,12 +40,13 @@ const outDir = isSymlinkSupported ? resolve('release') : join(tmpdir(), 'annapur
 
 if (!isSymlinkSupported) {
   console.log(`💡 Filesystem does not support symlinks; packaging in system temp: ${outDir}`)
+  mkdirSync(outDir, { recursive: true })
 }
 
-mkdirSync(outDir, { recursive: true })
-
 console.log(`🚀 [Annapurna Desktop] Running electron-builder ${targetArg}...`)
-const builderCmd = `node node_modules/electron-builder/out/cli/cli.js ${targetArg} -c.directories.output="${outDir}"`
+const normalizedOut = outDir.replace(/\\/g, '/')
+const outFlag = !isSymlinkSupported ? ` -c.directories.output="${normalizedOut}"` : ''
+const builderCmd = `node node_modules/electron-builder/out/cli/cli.js ${targetArg}${outFlag}`
 execSync(builderCmd, { stdio: 'inherit' })
 
 // If built in temp directory, copy final installable packages back to ./release
@@ -66,3 +68,4 @@ if (!isSymlinkSupported && outDir !== resolve('release')) {
 }
 
 console.log('✨ [Annapurna Desktop] Packaging complete!')
+

@@ -100,7 +100,6 @@
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.64.1",
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.3.3",
     "@tailwindcss/vite": "^4.2.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
