@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<annapurna xmlns="https://teamparadox.in/annapurna/schema/v2" version="2.0" exportedAt="2026-10-19T10:00:00.000Z">
+  <rationCards count="3">
+    <RationCard>
+      <Card_holder_Name>Aditya Chaudhari</Card_holder_Name>
+      <Card_Number>DEMO2026001</Card_Number>
+      <Guardian_Name>Ramesh Chaudhari</Guardian_Name>
+      <Mother_Name>Sunita Chaudhari</Mother_Name>
+      <Total_Unit>3</Total_Unit>
+      <Card_Type>BPL</Card_Type>
+      <Category>OBC</Category>
+      <Members>
+        <Member>
+          <Name>Aditya Chaudhari</Name>
+          <Guardian_Name>Ramesh Chaudhari</Guardian_Name>
+          <Gender>M</Gender>
+          <DOB>12-04-1996</DOB>
+          <Relation_with_Holder>self</Relation_with_Holder>
+          <Aadhaar>999911112222</Aadhaar>
+          <Contact_No>9876543210</Contact_No>
+        </Member>
+        <Member>
+          <Name>Kavita Chaudhari</Name>
+          <Guardian_Name>Aditya Chaudhari</Guardian_Name>
+          <Gender>F</Gender>
+          <DOB>05-09-1998</DOB>
+          <Relation_with_Holder>daughter</Relation_with_Holder>
+          <Aadhaar>999911113333</Aadhaar>
+          <Contact_No></Contact_No>
+        </Member>
+        <Member>
+          <Name>Rohit Chaudhari</Name>
+          <Guardian_Name>Aditya Chaudhari</Guardian_Name>
+          <Gender>M</Gender>
+          <DOB>18-11-2015</DOB>
+          <Relation_with_Holder>son</Relation_with_Holder>
+        </Member>
+      </Members>
+    </RationCard>
+
+    <RationCard>
+      <Card_holder_Name>Meera Nandkishore Verma</Card_holder_Name>
+      <Card_Number>DEMO2026002</Card_Number>
+      <Guardian_Name>Nandkishore Verma</Guardian_Name>
+      <Mother_Name>Kamla Devi</Mother_Name>
+      <Total_Unit>2</Total_Unit>
+      <Card_Type>APL</Card_Type>
+      <Category>Gen</Category>
+      <Members>
+        <Member>
+          <Name>Meera Nandkishore Verma</Name>
+          <Guardian_Name>Nandkishore Verma</Guardian_Name>
+          <Gender>F</Gender>
+          <DOB>10-06-1988</DOB>
+          <Relation_with_Holder>self</Relation_with_Holder>
+          <Aadhaar>999922223333</Aadhaar>
+          <Contact_No>9123456780</Contact_No>
+        </Member>
+        <Member>
+          <Name>Anand Verma</Name>
+          <Guardian_Name>Meera Verma</Guardian_Name>
+          <Gender>M</Gender>
+          <DOB>25-01-2014</DOB>
+          <Relation_with_Holder>son</Relation_with_Holder>
+        </Member>
+      </Members>
+    </RationCard>
+
+    <RationCard>
+      <Card_holder_Name>Suresh Babu Shinde</Card_holder_Name>
+      <Card_Number>DEMO2026003</Card_Number>
+      <Guardian_Name>Babu Shinde</Guardian_Name>
+      <Mother_Name>Parvati Shinde</Mother_Name>
+      <Total_Unit>1</Total_Unit>
+      <Card_Type>BPL</Card_Type>
+      <Category>SC</Category>
+      <Members>
+        <Member>
+          <Name>Suresh Babu Shinde</Name>
+          <Guardian_Name>Babu Shinde</Guardian_Name>
+          <Gender>M</Gender>
+          <DOB>03-03-1975</DOB>
+          <Relation_with_Holder>self</Relation_with_Holder>
+          <Aadhaar></Aadhaar>
+          <Contact_No>9988776655</Contact_No>
+        </Member>
+      </Members>
+    </RationCard>
+  </rationCards>
+</annapurna>
+

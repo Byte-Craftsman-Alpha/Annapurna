@@ -1,0 +1,90 @@
+{
+  "version": "2.0",
+  "exportedAt": "2026-10-19T10:00:00.000Z",
+  "cards": [
+    {
+      "Card_holder_Name": "Aditya Chaudhari",
+      "Card_Number": "DEMO2026001",
+      "Guardian_Name": "Ramesh Chaudhari",
+      "Mother_Name": "Sunita Chaudhari",
+      "Total_Unit": 3,
+      "Card_Type": "BPL",
+      "Category": "OBC",
+      "Members": [
+        {
+          "Name": "Aditya Chaudhari",
+          "Guardian_Name": "Ramesh Chaudhari",
+          "Gender": "M",
+          "DOB": "12-04-1996",
+          "Relation_with_Holder": "self",
+          "Aadhaar": "999911112222",
+          "Contact_No": "9876543210"
+        },
+        {
+          "Name": "Kavita Chaudhari",
+          "Guardian_Name": "Aditya Chaudhari",
+          "Gender": "F",
+          "DOB": "05-09-1998",
+          "Relation_with_Holder": "daughter",
+          "Aadhaar": "999911113333",
+          "Contact_No": ""
+        },
+        {
+          "Name": "Rohit Chaudhari",
+          "Guardian_Name": "Aditya Chaudhari",
+          "Gender": "M",
+          "DOB": "18-11-2015",
+          "Relation_with_Holder": "son"
+        }
+      ]
+    },
+    {
+      "Card_holder_Name": "Meera Nandkishore Verma",
+      "Card_Number": "DEMO2026002",
+      "Guardian_Name": "Nandkishore Verma",
+      "Mother_Name": "Kamla Devi",
+      "Total_Unit": 2,
+      "Card_Type": "APL",
+      "Category": "Gen",
+      "Members": [
+        {
+          "Name": "Meera Nandkishore Verma",
+          "Guardian_Name": "Nandkishore Verma",
+          "Gender": "F",
+          "DOB": "10-06-1988",
+          "Relation_with_Holder": "self",
+          "Aadhaar": "999922223333",
+          "Contact_No": "9123456780"
+        },
+        {
+          "Name": "Anand Verma",
+          "Guardian_Name": "Meera Verma",
+          "Gender": "M",
+          "DOB": "25-01-2014",
+          "Relation_with_Holder": "son"
+        }
+      ]
+    },
+    {
+      "Card_holder_Name": "Suresh Babu Shinde",
+      "Card_Number": "DEMO2026003",
+      "Guardian_Name": "Babu Shinde",
+      "Mother_Name": "Parvati Shinde",
+      "Total_Unit": 1,
+      "Card_Type": "BPL",
+      "Category": "SC",
+      "Members": [
+        {
+          "Name": "Suresh Babu Shinde",
+          "Guardian_Name": "Babu Shinde",
+          "Gender": "M",
+          "DOB": "03-03-1975",
+          "Relation_with_Holder": "self",
+          "Aadhaar": "",
+          "Contact_No": "9988776655"
+        }
+      ]
+    }
+  ]
+}
+

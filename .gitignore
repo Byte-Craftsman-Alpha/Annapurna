@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build artifacts
+dist/
+dist-ssr/
+
+# Local environment & secret files
+secrets.txt
+*secrets*.txt
+*.local
+.env
+.env.*
+!.env.example
+serviceAccountKey*.json
+*.pem
+*.key
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test results and coverage
+artifacts/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+coverage/
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swo
+*.swp
+.DS_Store
+Thumbs.db
+
+# Vite & build tool cache
+.vite/
+.vite-source-tags.js
+.eslintcache
+.cache/
+tmp/
+temp/

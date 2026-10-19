@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<annapurna xmlns="https://teamparadox.in/annapurna/schema/v2" version="2.0" exportedAt="2026-10-19T10:00:00.000Z">
+  <RationCard>
+    <Card_holder_Name>Aditya Chaudhari</Card_holder_Name>
+    <Card_Number>DEMO2026001</Card_Number>
+    <Guardian_Name>Ramesh Chaudhari</Guardian_Name>
+    <Mother_Name>Sunita Chaudhari</Mother_Name>
+    <Total_Unit>3</Total_Unit>
+    <Card_Type>BPL</Card_Type>
+    <Category>OBC</Category>
+    <Members>
+      <Member>
+        <Name>Aditya Chaudhari</Name>
+        <Guardian_Name>Ramesh Chaudhari</Guardian_Name>
+        <Gender>M</Gender>
+        <DOB>12-04-1996</DOB>
+        <Relation_with_Holder>self</Relation_with_Holder>
+        <Aadhaar>999911112222</Aadhaar>
+        <Contact_No>9876543210</Contact_No>
+      </Member>
+      <Member>
+        <Name>Kavita Chaudhari</Name>
+        <Guardian_Name>Aditya Chaudhari</Guardian_Name>
+        <Gender>F</Gender>
+        <DOB>05-09-1998</DOB>
+        <Relation_with_Holder>daughter</Relation_with_Holder>
+        <Aadhaar>999911113333</Aadhaar>
+        <Contact_No></Contact_No>
+      </Member>
+      <Member>
+        <Name>Rohit Chaudhari</Name>
+        <Guardian_Name>Aditya Chaudhari</Guardian_Name>
+        <Gender>M</Gender>
+        <DOB>18-11-2015</DOB>
+        <Relation_with_Holder>son</Relation_with_Holder>
+      </Member>
+    </Members>
+  </RationCard>
+</annapurna>
+

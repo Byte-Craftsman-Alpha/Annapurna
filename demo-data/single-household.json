@@ -1,0 +1,41 @@
+{
+  "cards": [
+    {
+      "Card_holder_Name": "Aditya Chaudhari",
+      "Card_Number": "DEMO2026001",
+      "Guardian_Name": "Ramesh Chaudhari",
+      "Mother_Name": "Sunita Chaudhari",
+      "Total_Unit": 3,
+      "Card_Type": "BPL",
+      "Category": "OBC",
+      "Members": [
+        {
+          "Name": "Aditya Chaudhari",
+          "Guardian_Name": "Ramesh Chaudhari",
+          "Gender": "M",
+          "DOB": "12-04-1996",
+          "Relation_with_Holder": "self",
+          "Aadhaar": "999911112222",
+          "Contact_No": "9876543210"
+        },
+        {
+          "Name": "Kavita Chaudhari",
+          "Guardian_Name": "Aditya Chaudhari",
+          "Gender": "F",
+          "DOB": "05-09-1998",
+          "Relation_with_Holder": "daughter",
+          "Aadhaar": "999911113333",
+          "Contact_No": ""
+        },
+        {
+          "Name": "Rohit Chaudhari",
+          "Guardian_Name": "Aditya Chaudhari",
+          "Gender": "M",
+          "DOB": "18-11-2015",
+          "Relation_with_Holder": "son"
+        }
+      ]
+    }
+  ]
+}
+

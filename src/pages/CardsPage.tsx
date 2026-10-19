@@ -1,0 +1,57 @@
+import { useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
+import { ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronDown, CreditCard, Download, Eye, FileCode, FileJson, Leaf, MoreHorizontal, Pencil, Plus, SlidersHorizontal, Trash2, Upload, UsersRound, X } from 'lucide-react'
+import { categories, displayDate, initials, type RationCard } from '../lib/types'
+import { Stats } from '../components/Stats'
+import { EmptyState, Pagination, Popover, TableSearch } from '../components/TableTools'
+
+interface Props {
+  cards: RationCard[]
+  onAdd: () => void
+  onView: (card: RationCard) => void
+  onEdit: (card: RationCard) => void
+  onDelete: (cards: RationCard[]) => void
+  onMembers: () => void
+  onOverview: () => void
+  onExport: (cards: RationCard[]) => void
+  onExportXML?: (cards: RationCard[]) => void
+  onExportSingleXML?: (card: RationCard) => void
+  onBackup: () => void
+  onImport: () => void
+  initialType?: 'All' | 'APL' | 'BPL'
+}
+
+export function CardsPage({ cards, onAdd, onView, onEdit, onDelete, onMembers, onOverview, onExport, onExportXML, onExportSingleXML, onBackup, onImport, initialType = 'All' }: Props) {
+  const [type, setType] = useState(initialType)
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('All')
+  const [sort, setSort] = useState('updated')
+  const [page, setPage] = useState(1)
+  const [perPage, setPerPage] = useState(5)
+  const [filters, setFilters] = useState(false)
+  const [exportMenu, setExportMenu] = useState(false)
+  const [rowMenu, setRowMenu] = useState<string | null>(null)
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+  const filtered = useMemo(() => cards.filter(c => (type === 'All' || c.Card_Type === type) && (category === 'All' || c.Category === category) && `${c.Card_holder_Name} ${c.Card_Number} ${c.Guardian_Name}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => sort === 'name' ? a.Card_holder_Name.localeCompare(b.Card_holder_Name) : sort === 'number' ? a.Card_Number.localeCompare(b.Card_Number) : b.updatedAt.localeCompare(a.updatedAt)), [cards, type, category, query, sort])
+  const currentPage = Math.min(page, Math.max(1, Math.ceil(filtered.length / perPage)))
+  const visible = filtered.slice((currentPage - 1) * perPage, currentPage * perPage)
+  const selectedCards = cards.filter(c => selected.has(c.id))
+  const allSelected = visible.length > 0 && visible.every(c => selected.has(c.id))
+  function toggle(id: string) { setSelected(current => { const next = new Set(current); if (next.has(id)) next.delete(id); else next.add(id); return next }) }
+  function reset() { setType('All'); setQuery(''); setCategory('All'); setSort('updated'); setPage(1) }
+  function filterType(value: 'All' | 'APL' | 'BPL') { setType(value); setPage(1) }
+  return <>
+    <section className="welcome-banner"><div className="welcome-copy"><span className="eyebrow"><span/>A LITTLE ORDER. A LOT OF CARE.</span><h1>Every household,<br/>accounted for.</h1><p>A simpler way to manage ration cards and the people behind them.</p><div className="welcome-actions"><button className="button button-primary" onClick={onAdd}><Plus size={17}/>Add ration card</button><button className="welcome-secondary" onClick={onOverview}>View overview <ArrowUpRight size={16}/></button></div></div><div className="welcome-art" aria-hidden="true"><span className="art-circle circle-one"/><span className="art-circle circle-two"/><img src="/images/households.webp" alt=""/><span className="art-caption"><span><Leaf size={12}/></span> Rooted in community.</span></div></section>
+    <Stats cards={cards} onCards={reset} onMembers={onMembers} onOverview={onOverview} onBPL={() => filterType('BPL')}/>
+    <section className="records-section" aria-labelledby="cards-heading"><div className="section-heading"><div><h2 id="cards-heading">Ration cards <span className="count-badge">{cards.length}</span></h2><p>Your households, neatly organized.</p></div><div className="relative"><button className="button button-outline export-button" onClick={() => setExportMenu(!exportMenu)} aria-expanded={exportMenu}><Download size={16}/>Export records<ChevronDown size={14}/></button>{exportMenu && <Popover onClose={() => setExportMenu(false)} className="export-popover"><span className="popover-caption">YOUR DATA, YOUR WAY</span><button onClick={() => { onExport(filtered); setExportMenu(false) }}><ArrowDownToLine size={16}/><span>Export filtered cards<small>Spreadsheet-ready CSV</small></span></button><button onClick={() => { onExportXML?.(filtered); setExportMenu(false) }}><FileCode size={16}/><span>Export cards as XML<small>Well-defined bulk XML document</small></span></button><button onClick={() => { onBackup(); setExportMenu(false) }}><FileJson size={16}/><span>Download full backup<small>Cards and all member details (JSON)</small></span></button><div className="menu-divider"/><button onClick={() => { onImport(); setExportMenu(false) }}><Upload size={16}/><span>Import a file (JSON / XML)<small>Bulk or single household</small></span></button></Popover>}</div></div>
+      <div className="table-container"><div className="table-toolbar">{selectedCards.length ? <div className="selection-toolbar"><button className="icon-button" onClick={() => setSelected(new Set())} aria-label="Clear selection"><X size={16}/></button><strong>{selectedCards.length} selected</strong><button className="text-button" onClick={() => onExport(selectedCards)}><Download size={15}/>Export CSV</button><button className="text-button" onClick={() => onExportXML?.(selectedCards)}><FileCode size={15}/>Export XML</button><button className="text-button danger-text" onClick={() => { onDelete(selectedCards); setSelected(new Set()) }}><Trash2 size={15}/>Delete</button></div> : <div className="card-tabs">{(['All', 'APL', 'BPL'] as const).map(value => <button key={value} className={type === value ? 'active' : ''} onClick={() => filterType(value)} aria-pressed={type === value}>{value === 'All' ? 'All cards' : value}<span>{value === 'All' ? cards.length : cards.filter(c => c.Card_Type === value).length}</span></button>)}</div>}
+        <div className="table-toolbar-right"><TableSearch value={query} onChange={value => { setQuery(value); setPage(1) }}/><div className="relative"><button className={`button filter-button ${category !== 'All' ? 'has-filters' : ''}`} onClick={() => setFilters(!filters)} aria-expanded={filters}><SlidersHorizontal size={16}/><span>Filters</span>{category !== 'All' && <span className="filter-dot"/>}</button>{filters && <Popover onClose={() => setFilters(false)} className="filter-popover"><h3>A little more specific</h3><label>Category<select aria-label="Category" value={category} onChange={e => { setCategory(e.target.value); setPage(1) }}><option value="All">All categories</option>{categories.map(c => <option key={c}>{c}</option>)}</select></label><label>Sort by<select aria-label="Sort by" value={sort} onChange={e => { setSort(e.target.value); setPage(1) }}><option value="updated">Recently updated</option><option value="name">Cardholder A–Z</option><option value="number">Card number</option></select></label><button className="text-button" onClick={() => { reset(); setFilters(false) }}>Reset filters</button></Popover>}</div></div></div>
+        {category !== 'All' && <div className="active-filters"><button onClick={() => setCategory('All')}>Category: {category}<X size={12}/></button><span>{filtered.length} matching households</span></div>}
+        <div className="table-scroll"><table className="cards-table"><thead><tr><th className="checkbox-cell"><input type="checkbox" aria-label="Select all cards on this page" checked={allSelected} onChange={() => setSelected(current => { const next = new Set(current); visible.forEach(c => { if (allSelected) next.delete(c.id); else next.add(c.id) }); return next })}/></th><th><button className="column-sort" onClick={() => setSort(sort === 'name' ? 'updated' : 'name')}>Cardholder {sort === 'name' && <ArrowDown size={12}/>}</button></th><th>Card number</th><th>Card type</th><th>Category</th><th>Members</th><th>Units</th><th><button className="column-sort" onClick={() => setSort('updated')}>Updated {sort === 'updated' && <ArrowDown size={12}/>}</button></th><th className="row-actions-cell"><span className="sr-only">Actions</span></th></tr></thead><tbody>{visible.map((card, index) => <motion.tr key={card.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index, 4) * 0.035, duration: 0.2 }} className={selected.has(card.id) ? 'selected-row' : ''}><td className="checkbox-cell"><input type="checkbox" aria-label={`Select ${card.Card_holder_Name}`} checked={selected.has(card.id)} onChange={() => toggle(card.id)}/></td><td><button className="holder-cell" onClick={() => onView(card)}><span className={`avatar avatar-${index % 5}`}>{initials(card.Card_holder_Name)}</span><span className="holder-name">{card.Card_holder_Name}</span></button></td><td className="card-number">{card.Card_Number}</td><td><span className={`type-badge ${card.Card_Type.toLowerCase()}`}><span/>{card.Card_Type}</span></td><td><span className="category-label">{card.Category}</span></td><td><button className="member-cell" onClick={() => onView(card)} aria-label={`View ${card.Members.length} members of ${card.Card_holder_Name}`}><UsersRound size={15}/>{card.Members.length}</button></td><td className="unit-cell">{card.Total_Unit}</td><td className="updated-cell">{displayDate(card.updatedAt, false)}</td><td className="row-actions-cell"><div className="relative"><button className={`icon-button row-more ${rowMenu === card.id ? 'is-open' : ''}`} aria-label={`Actions for ${card.Card_holder_Name}`} onClick={() => setRowMenu(rowMenu === card.id ? null : card.id)}><MoreHorizontal size={19}/></button>{rowMenu === card.id && <Popover className={`row-popover ${index >= Math.max(2, visible.length - 2) ? 'popover-up' : ''}`} onClose={() => setRowMenu(null)}><button onClick={() => { onView(card); setRowMenu(null) }}><Eye size={15}/>View household</button><button onClick={() => { onExportSingleXML?.(card); setRowMenu(null) }}><FileCode size={15}/>Export as XML</button><button onClick={() => { onEdit(card); setRowMenu(null) }}><Pencil size={15}/>Edit details</button><div className="menu-divider"/><button className="danger-text" onClick={() => { onDelete([card]); setRowMenu(null) }}><Trash2 size={15}/>Delete card</button></Popover>}</div></td></motion.tr>)}</tbody></table></div>
+        {!filtered.length && <EmptyState title={cards.length ? 'No households found' : 'A fresh start for your community'} message={cards.length ? 'Try a different name, card number, or filter.' : 'Add your first ration card and bring a household into view.'} onReset={cards.length ? reset : onAdd} action={cards.length ? 'Clear filters' : 'Add ration card'}/>}
+        <Pagination count={filtered.length} page={currentPage} perPage={perPage} onPage={setPage} onPerPage={setPerPage}/>
+      </div><div className="table-footnote"><span><Check size={13}/>Changes are saved as you go. Less worry, more care.</span><button onClick={onMembers}>Meet the members <ArrowRight size={14}/></button></div>
+    </section>
+    <div className="workspace-bottom-note"><CreditCard size={13}/>{cards.some(c => c.isSample) ? 'Includes fictional sample households. Ready for your real community when you are.' : 'Thoughtfully organized. Always within reach.'}</div>
+  </>
+}
