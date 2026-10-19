@@ -53,10 +53,7 @@
       "!node_modules/**/*"
     ],
     "asar": true,
-    "publish": null,
     "linux": {
-      "desktopName": "annapurna",
-      "syncDesktopName": true,
       "target": [
         "AppImage",
         "deb",
