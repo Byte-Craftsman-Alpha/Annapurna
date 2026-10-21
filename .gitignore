@@ -9,6 +9,7 @@ dist-ssr/
 release/
 *.AppImage
 *.deb
+scrap_data.js
 
 
 # Local environment & secret files

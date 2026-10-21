@@ -6,6 +6,11 @@ A React, TypeScript, Vite, and Tailwind workspace for ration cards and household
 
 Install dependencies with `npm install`, then use the Vite development command (`npm run dev`). `npm run build` produces the production web app in `dist`. `npm run lint` checks the source.
 
+### Conflict-Free Updates to Latest Main Release
+
+- **In-App (Desktop & Web)**: Open **Settings → App updates & releases** or choose **Help → Check for Updates...** in the Electron menu. This queries releases built exclusively from the `main` branch (`Byte-Craftsman-Alpha/Annapurna`), detects your operating system, and offers the standalone conflict-free package (`.AppImage` on Linux, portable `.exe` on Windows, `.dmg` on macOS).
+- **CLI Workspace Update**: Run `npm run update` to automatically sync your local workspace directly to `origin/main` without merge conflicts, install dependencies, and rebuild the production bundle.
+
 ### Desktop Application
 
 - `npm run electron:start`: Launch Annapurna in a native Electron window against the compiled production bundle.

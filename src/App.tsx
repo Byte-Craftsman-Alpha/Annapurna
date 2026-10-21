@@ -104,6 +104,10 @@ function App() {
     window.addEventListener('hashchange', onHash)
     window.addEventListener('beforeinstallprompt', onInstall)
     if ('serviceWorker' in navigator && import.meta.env.PROD) void navigator.serviceWorker.register('/sw.js').catch(() => undefined)
+    const desktop = (window as unknown as { annapurnaDesktop?: { receive?: (channel: string, func: () => void) => void } }).annapurnaDesktop
+    desktop?.receive?.('menu:check-updates', () => {
+      navigate('settings')
+    })
     return () => { window.removeEventListener('hashchange', onHash); window.removeEventListener('beforeinstallprompt', onInstall) }
   }, [])
 

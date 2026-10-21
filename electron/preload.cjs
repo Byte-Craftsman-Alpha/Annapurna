@@ -12,9 +12,14 @@ contextBridge.exposeInMainWorld('annapurnaDesktop', {
     }
   },
   receive: (channel, func) => {
-    const validChannels = ['fromMain', 'menu:new-card', 'menu:search']
+    const validChannels = ['fromMain', 'menu:new-card', 'menu:search', 'menu:check-updates']
     if (validChannels.includes(channel)) {
       ipcRenderer.on(channel, (_event, ...args) => func(...args))
+    }
+  },
+  openExternal: (url) => {
+    if (url && (url.startsWith('https://') || url.startsWith('http://'))) {
+      ipcRenderer.invoke('app:open-external', url)
     }
   },
 })

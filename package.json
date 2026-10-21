@@ -27,10 +27,11 @@
     "firebase"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "node node_modules/vite/bin/vite.js",
     "build": "node node_modules/typescript/bin/tsc -b && node node_modules/vite/bin/vite.js build",
     "lint": "node node_modules/eslint/bin/eslint.js .",
-    "preview": "vite preview",
+    "preview": "node node_modules/vite/bin/vite.js preview",
+    "update": "node scripts/update-app.mjs",
     "electron:start": "node node_modules/electron/cli.js .",
     "electron:dev": "node node_modules/concurrently/dist/bin/concurrently.js -k -s first \"node node_modules/vite/bin/vite.js\" \"node node_modules/wait-on/bin/wait-on tcp:5173 && ELECTRON_START_URL=http://localhost:5173 node node_modules/electron/cli.js .\"",
     "dist:dir": "node scripts/build-desktop.mjs --dir",

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, shell, dialog } = require('electron')
+const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron')
 const path = require('node:path')
 
 let mainWindow = null
@@ -151,6 +151,12 @@ function setupApplicationMenu() {
             })
           },
         },
+        {
+          label: 'Check for Updates...',
+          click: () => {
+            mainWindow?.webContents.send('menu:check-updates')
+          },
+        },
         { type: 'separator' },
         {
           label: 'Team Paradox Website',
@@ -171,6 +177,15 @@ function setupApplicationMenu() {
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 }
+
+// IPC handlers for safe desktop interactions
+ipcMain.handle('app:open-external', (_event, url) => {
+  if (url && (url.startsWith('https://') || url.startsWith('http://'))) {
+    shell.openExternal(url)
+    return true
+  }
+  return false
+})
 
 // Ensure single instance lock so multiple windows don't conflict
 const hasSingleInstanceLock = app.requestSingleInstanceLock()
